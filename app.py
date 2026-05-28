@@ -4,7 +4,7 @@ import joblib
 import tensorflow as tf
 
 # 모델 불러오기
-model = tf.keras.models.load_model("refined_model.keras")
+model = tf.keras.models.load_model("refined_model.keras", compile=False)
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 

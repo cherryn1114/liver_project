@@ -3,19 +3,19 @@ import numpy as np
 import joblib
 import tensorflow as tf
 
-모델 불러오기
+# 모델 불러오기
 
 model = tf.keras.models.load_model("refined_model.keras")
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
-제목
+# 제목
 
 st.title("비알코올성 지방간 위험 예측 웹")
 
 st.write("건강검진 정보를 입력하면 지방간 위험도를 예측합니다.")
 
-입력값
+# 입력값
 
 age = st.number_input(
 "나이",
@@ -50,7 +50,7 @@ diabetes_text = st.selectbox(
 
 DE1_pr = 1 if diabetes_text == "있음" else 0
 
-예측
+# 예측
 
 if st.button("예측하기"):
 

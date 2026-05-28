@@ -105,7 +105,7 @@ with col2:
     )
 # 변수 변환
 sex = 1 if sex_text == "남성" else 2
-DE1_pr = 1 if diabetes_text == "있음" else 8
+DE1_pr = 1 if diabetes_text == "있음" else 0
 st.write("")
 st.write("")
 # 예측 버튼

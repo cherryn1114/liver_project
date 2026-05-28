@@ -65,8 +65,8 @@ if st.button("예측하기"):
     input_scaled = scaler.transform(input_data)
 
     # 예측
-    prediction = model.predict(input_scaled)[0][0]
-
+    raw_prediction = model.predict(input_scaled)
+    prediction = float(raw_prediction.reshape(-1)[0])
     # 결과 출력
     st.subheader("예측 결과")
 

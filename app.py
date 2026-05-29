@@ -131,38 +131,108 @@ diabetes_text = st.selectbox(
 # 라이프스타일 입력
 # =========================
 
-st.markdown("## 생활습관 정보 입력")
-st.caption("현재 모델 예측에는 직접 반영되지 않으며, 향후 업데이트 모델을 위한 프로토타입 입력 항목입니다.")
+# =========================
+# 식습관 입력
+# =========================
 
-diet_pattern = st.selectbox(
-    "식습관 유형",
+st.markdown("## 식습관 정보 입력")
+
+st.caption(
+    "현재 모델 예측에는 직접 반영되지 않으며, 향후 라이프스타일 반영 모델 업데이트를 위한 입력 항목입니다."
+)
+
+high_calorie_meals = st.slider(
+    "기름지거나 고열량인 식사를 일주일에 몇 끼 정도 하나요? "
+    "(예: 치킨, 피자, 햄버거, 돈까스, 삼겹살, 마라탕, 라면, 튀김류 등)",
+    min_value=0,
+    max_value=21,
+    value=3,
+    step=1
+)
+
+snack_frequency = st.slider(
+    "군것질이나 단 음식을 일주일에 몇 회 정도 먹나요? "
+    "(예: 과자, 초콜릿, 케이크, 아이스크림, 빵, 디저트류)",
+    min_value=0,
+    max_value=21,
+    value=3,
+    step=1
+)
+
+sugary_drink_frequency = st.slider(
+    "당이 들어간 음료를 일주일에 몇 회 정도 마시나요? "
+    "(예: 탄산음료, 달달한 커피, 버블티, 에너지드링크, 과일주스)",
+    min_value=0,
+    max_value=21,
+    value=2,
+    step=1
+)
+
+late_night_meals = st.slider(
+    "야식 또는 밤 10시 이후 식사를 일주일에 몇 회 정도 하나요?",
+    min_value=0,
+    max_value=14,
+    value=1,
+    step=1
+)
+
+regular_meals = st.selectbox(
+    "식사 시간은 규칙적인 편인가요?",
     [
-        "균형 잡힌 식사",
-        "탄수화물 위주의 식사",
-        "지방/튀김류 섭취가 잦음",
-        "단 음료/간식 섭취가 잦음",
-        "불규칙한 식사"
+        "대체로 규칙적임",
+        "가끔 불규칙함",
+        "자주 불규칙함"
     ]
 )
 
-exercise_frequency = st.selectbox(
-    "주당 운동 횟수",
-    [
-        "거의 하지 않음",
-        "주 1~2회",
-        "주 3~4회",
-        "주 5회 이상"
-    ]
+# =========================
+# 운동 습관 입력
+# =========================
+
+st.markdown("## 운동 습관 정보 입력")
+
+light_exercise_days = st.slider(
+    "가벼운 운동을 일주일에 며칠 정도 하나요? "
+    "(예: 산책, 스트레칭, 가벼운 자전거)",
+    min_value=0,
+    max_value=7,
+    value=2,
+    step=1
+)
+
+moderate_exercise_days = st.slider(
+    "중등도 운동을 일주일에 며칠 정도 하나요? "
+    "(예: 빠르게 걷기, 조깅, 수영, 등산)",
+    min_value=0,
+    max_value=7,
+    value=2,
+    step=1
+)
+
+vigorous_exercise_days = st.slider(
+    "고강도 운동을 일주일에 며칠 정도 하나요? "
+    "(예: 달리기, HIIT, 축구, 농구, 웨이트 트레이닝)",
+    min_value=0,
+    max_value=7,
+    value=0,
+    step=1
 )
 
 exercise_minutes = st.slider(
-    "1회 평균 운동 시간",
+    "운동하는 날의 평균 운동 시간(분)",
     min_value=0,
-    max_value=120,
+    max_value=180,
     value=30,
     step=10
 )
 
+sedentary_hours = st.slider(
+    "하루 평균 앉아서 보내는 시간(시간)",
+    min_value=0,
+    max_value=16,
+    value=6,
+    step=1
+)
 # =========================
 # 변수 변환
 # =========================
@@ -255,10 +325,21 @@ if st.button("위험 수준 확인하기"):
 
     st.markdown("### 입력된 생활습관 정보")
 
-    st.write(f"식습관 유형: {diet_pattern}")
-    st.write(f"주당 운동 횟수: {exercise_frequency}")
-    st.write(f"1회 평균 운동 시간: {exercise_minutes}분")
+    st.markdown("### 입력된 생활습관 정보")
 
+st.write(f"고열량·기름진 식사: 주 {high_calorie_meals}회")
+st.write(f"군것질·디저트 섭취: 주 {snack_frequency}회")
+st.write(f"당 함유 음료 섭취: 주 {sugary_drink_frequency}회")
+st.write(f"야식: 주 {late_night_meals}회")
+st.write(f"식사 규칙성: {regular_meals}")
+
+st.write("---")
+
+st.write(f"가벼운 운동: 주 {light_exercise_days}일")
+st.write(f"중등도 운동: 주 {moderate_exercise_days}일")
+st.write(f"고강도 운동: 주 {vigorous_exercise_days}일")
+st.write(f"운동일 평균 운동 시간: {exercise_minutes}분")
+st.write(f"하루 평균 앉아있는 시간: {sedentary_hours}시간")
     st.caption(
         "생활습관 정보는 현재 예측값 계산에는 포함되지 않으며, 향후 라이프스타일 반영 모델 업데이트 시 활용될 예정입니다."
     )

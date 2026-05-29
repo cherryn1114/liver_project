@@ -340,7 +340,7 @@ st.write(f"중등도 운동: 주 {moderate_exercise_days}일")
 st.write(f"고강도 운동: 주 {vigorous_exercise_days}일")
 st.write(f"운동일 평균 운동 시간: {exercise_minutes}분")
 st.write(f"하루 평균 앉아있는 시간: {sedentary_hours}시간")
-    st.caption(
+st.caption(
         "생활습관 정보는 현재 예측값 계산에는 포함되지 않으며, 향후 라이프스타일 반영 모델 업데이트 시 활용될 예정입니다."
     )
 

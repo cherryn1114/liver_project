@@ -38,6 +38,7 @@ st.markdown("""
 
 .block-container {
     padding-top: 2rem;
+    max-width: 720px;
 }
 
 </style>
@@ -79,7 +80,7 @@ st.sidebar.title("프로젝트 정보")
 
 st.sidebar.info(
     """
-    입력 변수
+    현재 모델 입력 변수
 
     • 나이
     • 성별
@@ -87,51 +88,80 @@ st.sidebar.info(
     • AST
     • 당뇨 여부
 
-    본 결과는 AI 예측 결과이며
-    실제 의학적 진단을 대체하지 않습니다.
+    식이 및 운동 항목은 향후 라이프스타일 반영 모델 업데이트를 위한 프로토타입 입력 항목입니다.
     """
 )
 
 # =========================
-# 입력 영역
+# 기본 건강검진 정보 입력
 # =========================
 
 st.markdown("## 건강검진 정보 입력")
 
-col1, col2 = st.columns(2)
+age = st.number_input(
+    "나이",
+    min_value=0,
+    max_value=120,
+    value=30
+)
 
-with col1:
+sex_text = st.selectbox(
+    "성별",
+    ["남성", "여성"]
+)
 
-    age = st.number_input(
-        "나이",
-        min_value=0,
-        max_value=120,
-        value=30
-    )
+HE_alt = st.number_input(
+    "ALT 수치",
+    min_value=0.0,
+    value=25.0
+)
 
-    sex_text = st.selectbox(
-        "성별",
-        ["남성", "여성"]
-    )
+HE_ast = st.number_input(
+    "AST 수치",
+    min_value=0.0,
+    value=25.0
+)
 
-    HE_alt = st.number_input(
-        "ALT 수치",
-        min_value=0.0,
-        value=25.0
-    )
+diabetes_text = st.selectbox(
+    "당뇨 여부",
+    ["없음", "있음"]
+)
 
-with col2:
+# =========================
+# 라이프스타일 입력
+# =========================
 
-    HE_ast = st.number_input(
-        "AST 수치",
-        min_value=0.0,
-        value=25.0
-    )
+st.markdown("## 생활습관 정보 입력")
+st.caption("현재 모델 예측에는 직접 반영되지 않으며, 향후 업데이트 모델을 위한 프로토타입 입력 항목입니다.")
 
-    diabetes_text = st.selectbox(
-        "당뇨 여부",
-        ["없음", "있음"]
-    )
+diet_pattern = st.selectbox(
+    "식습관 유형",
+    [
+        "균형 잡힌 식사",
+        "탄수화물 위주의 식사",
+        "지방/튀김류 섭취가 잦음",
+        "단 음료/간식 섭취가 잦음",
+        "불규칙한 식사"
+    ]
+)
+
+exercise_frequency = st.selectbox(
+    "주당 운동 횟수",
+    [
+        "거의 하지 않음",
+        "주 1~2회",
+        "주 3~4회",
+        "주 5회 이상"
+    ]
+)
+
+exercise_minutes = st.slider(
+    "1회 평균 운동 시간",
+    min_value=0,
+    max_value=120,
+    value=30,
+    step=10
+)
 
 # =========================
 # 변수 변환
@@ -168,7 +198,6 @@ if st.button("위험 수준 확인하기"):
     risk_score = prediction_value * 100
 
     st.markdown("---")
-
     st.markdown("## 예측 결과")
 
     st.progress(
@@ -185,10 +214,6 @@ if st.button("위험 수준 확인하기"):
         label="AI 위험 점수",
         value=f"{risk_score:.1f}점"
     )
-
-    # =====================
-    # 3단계 분류
-    # =====================
 
     if prediction_value < 0.60:
 
@@ -220,7 +245,6 @@ if st.button("위험 수준 확인하기"):
             "지방간 위험 가능성이 높게 예측되었습니다."
         )
 
-    # 당뇨 변수 관련 안내
     if diabetes_text == "있음":
 
         st.info(
@@ -229,9 +253,15 @@ if st.button("위험 수준 확인하기"):
             "이 결과는 실제 진단이 아닌 참고용 예측값입니다."
         )
 
-    # =====================
-    # 상세 정보
-    # =====================
+    st.markdown("### 입력된 생활습관 정보")
+
+    st.write(f"식습관 유형: {diet_pattern}")
+    st.write(f"주당 운동 횟수: {exercise_frequency}")
+    st.write(f"1회 평균 운동 시간: {exercise_minutes}분")
+
+    st.caption(
+        "생활습관 정보는 현재 예측값 계산에는 포함되지 않으며, 향후 라이프스타일 반영 모델 업데이트 시 활용될 예정입니다."
+    )
 
     with st.expander("상세 정보 보기"):
 

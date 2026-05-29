@@ -38,7 +38,7 @@ st.markdown("""
 
 .block-container {
     padding-top: 2rem;
-    max-width: 720px;
+    max-width: 760px;
 }
 
 </style>
@@ -69,7 +69,7 @@ st.markdown(
 )
 
 st.write(
-    "건강검진 정보를 입력하면 비알코올성 지방간 위험 수준을 예측합니다."
+    "건강검진 정보와 생활습관 정보를 입력하면 비알코올성 지방간 위험 수준을 확인할 수 있습니다."
 )
 
 # =========================
@@ -80,7 +80,7 @@ st.sidebar.title("프로젝트 정보")
 
 st.sidebar.info(
     """
-    현재 모델 입력 변수
+    현재 AI 모델 입력 변수
 
     • 나이
     • 성별
@@ -88,12 +88,12 @@ st.sidebar.info(
     • AST
     • 당뇨 여부
 
-    식이 및 운동 항목은 향후 라이프스타일 반영 모델 업데이트를 위한 프로토타입 입력 항목입니다.
+    식습관과 운동 습관 항목은 향후 라이프스타일 반영 모델 업데이트를 위한 프로토타입 입력 항목입니다.
     """
 )
 
 # =========================
-# 기본 건강검진 정보 입력
+# 건강검진 정보 입력
 # =========================
 
 st.markdown("## 건강검진 정보 입력")
@@ -128,17 +128,13 @@ diabetes_text = st.selectbox(
 )
 
 # =========================
-# 라이프스타일 입력
-# =========================
-
-# =========================
-# 식습관 입력
+# 식습관 정보 입력
 # =========================
 
 st.markdown("## 식습관 정보 입력")
 
 st.caption(
-    "현재 모델 예측에는 직접 반영되지 않으며, 향후 라이프스타일 반영 모델 업데이트를 위한 입력 항목입니다."
+    "아래 식습관 정보는 현재 AI 예측값 계산에는 직접 반영되지 않으며, 향후 라이프스타일 반영 모델 업데이트를 위한 입력 항목입니다."
 )
 
 high_calorie_meals = st.slider(
@@ -152,7 +148,7 @@ high_calorie_meals = st.slider(
 
 snack_frequency = st.slider(
     "군것질이나 단 음식을 일주일에 몇 회 정도 먹나요? "
-    "(예: 과자, 초콜릿, 케이크, 아이스크림, 빵, 디저트류)",
+    "(예: 과자, 초콜릿, 케이크, 아이스크림, 빵, 디저트류 등)",
     min_value=0,
     max_value=21,
     value=3,
@@ -161,7 +157,7 @@ snack_frequency = st.slider(
 
 sugary_drink_frequency = st.slider(
     "당이 들어간 음료를 일주일에 몇 회 정도 마시나요? "
-    "(예: 탄산음료, 달달한 커피, 버블티, 에너지드링크, 과일주스)",
+    "(예: 탄산음료, 달달한 커피, 버블티, 에너지드링크, 과일주스 등)",
     min_value=0,
     max_value=21,
     value=2,
@@ -185,15 +181,35 @@ regular_meals = st.selectbox(
     ]
 )
 
+alcohol_frequency = st.slider(
+    "음주를 일주일에 몇 회 정도 하나요?",
+    min_value=0,
+    max_value=14,
+    value=0,
+    step=1
+)
+
+vegetable_meals = st.slider(
+    "채소를 포함한 식사를 일주일에 몇 끼 정도 하나요?",
+    min_value=0,
+    max_value=21,
+    value=10,
+    step=1
+)
+
 # =========================
-# 운동 습관 입력
+# 운동 습관 정보 입력
 # =========================
 
 st.markdown("## 운동 습관 정보 입력")
 
+st.caption(
+    "운동은 횟수뿐 아니라 강도도 중요하므로, 강도별 운동 빈도를 나누어 입력합니다."
+)
+
 light_exercise_days = st.slider(
     "가벼운 운동을 일주일에 며칠 정도 하나요? "
-    "(예: 산책, 스트레칭, 가벼운 자전거)",
+    "(예: 산책, 스트레칭, 가벼운 자전거, 집안일 등)",
     min_value=0,
     max_value=7,
     value=2,
@@ -202,7 +218,7 @@ light_exercise_days = st.slider(
 
 moderate_exercise_days = st.slider(
     "중등도 운동을 일주일에 며칠 정도 하나요? "
-    "(예: 빠르게 걷기, 조깅, 수영, 등산)",
+    "(예: 빠르게 걷기, 가벼운 조깅, 자전거 타기, 수영, 등산 등)",
     min_value=0,
     max_value=7,
     value=2,
@@ -211,7 +227,7 @@ moderate_exercise_days = st.slider(
 
 vigorous_exercise_days = st.slider(
     "고강도 운동을 일주일에 며칠 정도 하나요? "
-    "(예: 달리기, HIIT, 축구, 농구, 웨이트 트레이닝)",
+    "(예: 달리기, 고강도 인터벌 운동, 축구/농구, 빠른 수영, 웨이트 트레이닝 등)",
     min_value=0,
     max_value=7,
     value=0,
@@ -219,7 +235,7 @@ vigorous_exercise_days = st.slider(
 )
 
 exercise_minutes = st.slider(
-    "운동하는 날의 평균 운동 시간(분)",
+    "운동하는 날의 평균 운동 시간은 몇 분인가요?",
     min_value=0,
     max_value=180,
     value=30,
@@ -227,12 +243,13 @@ exercise_minutes = st.slider(
 )
 
 sedentary_hours = st.slider(
-    "하루 평균 앉아서 보내는 시간(시간)",
+    "하루 평균 앉아서 보내는 시간은 몇 시간 정도인가요?",
     min_value=0,
     max_value=16,
     value=6,
     step=1
 )
+
 # =========================
 # 변수 변환
 # =========================
@@ -268,6 +285,7 @@ if st.button("위험 수준 확인하기"):
     risk_score = prediction_value * 100
 
     st.markdown("---")
+
     st.markdown("## 예측 결과")
 
     st.progress(
@@ -325,26 +343,27 @@ if st.button("위험 수준 확인하기"):
 
     st.markdown("### 입력된 생활습관 정보")
 
-    st.markdown("### 입력된 생활습관 정보")
+    st.write(f"고열량·기름진 식사: 주 {high_calorie_meals}회")
+    st.write(f"군것질·디저트 섭취: 주 {snack_frequency}회")
+    st.write(f"당 함유 음료 섭취: 주 {sugary_drink_frequency}회")
+    st.write(f"야식 또는 늦은 식사: 주 {late_night_meals}회")
+    st.write(f"음주: 주 {alcohol_frequency}회")
+    st.write(f"채소 포함 식사: 주 {vegetable_meals}끼")
+    st.write(f"식사 규칙성: {regular_meals}")
 
-st.write(f"고열량·기름진 식사: 주 {high_calorie_meals}회")
-st.write(f"군것질·디저트 섭취: 주 {snack_frequency}회")
-st.write(f"당 함유 음료 섭취: 주 {sugary_drink_frequency}회")
-st.write(f"야식: 주 {late_night_meals}회")
-st.write(f"식사 규칙성: {regular_meals}")
+    st.write("---")
 
-st.write("---")
+    st.write(f"가벼운 운동: 주 {light_exercise_days}일")
+    st.write(f"중등도 운동: 주 {moderate_exercise_days}일")
+    st.write(f"고강도 운동: 주 {vigorous_exercise_days}일")
+    st.write(f"운동일 평균 운동 시간: {exercise_minutes}분")
+    st.write(f"하루 평균 앉아있는 시간: {sedentary_hours}시간")
 
-st.write(f"가벼운 운동: 주 {light_exercise_days}일")
-st.write(f"중등도 운동: 주 {moderate_exercise_days}일")
-st.write(f"고강도 운동: 주 {vigorous_exercise_days}일")
-st.write(f"운동일 평균 운동 시간: {exercise_minutes}분")
-st.write(f"하루 평균 앉아있는 시간: {sedentary_hours}시간")
-st.caption(
+    st.caption(
         "생활습관 정보는 현재 예측값 계산에는 포함되지 않으며, 향후 라이프스타일 반영 모델 업데이트 시 활용될 예정입니다."
     )
 
-with st.expander("상세 정보 보기"):
+    with st.expander("상세 정보 보기"):
 
         st.write(
             f"모델 원시 예측값: {prediction_value:.4f}"
@@ -358,6 +377,6 @@ with st.expander("상세 정보 보기"):
             "학습 데이터의 변수 분포 특성상 당뇨 여부가 예측 결과에 민감하게 작용할 수 있습니다."
         )
 
-st.caption(
+    st.caption(
         "본 결과는 연구용 AI 모델의 예측 결과이며 의학적 진단을 대체할 수 없습니다."
     )

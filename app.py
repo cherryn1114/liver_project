@@ -138,7 +138,7 @@ if st.button("위험도 예측하기"):
     st.progress(int(risk_percent))
     # 위험도 수치
     st.metric(
-        label="비알코올성 지방간 위험도",
+        label="대사 이상 관련 지방간질환 위험도",
         value=f"{risk_percent:.1f}%"
     )
     st.write("")

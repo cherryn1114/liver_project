@@ -4,7 +4,7 @@ import joblib
 import tensorflow as tf
 # 페이지 설정
 st.set_page_config(
-    page_title="비알코올성 지방간 예측 AI",
+    page_title="대사 이상 관련 지방간질환(MASLD) 예측 AI",
     page_icon="🩺",
     layout="centered"
 )
@@ -45,7 +45,7 @@ features = joblib.load("features.pkl")
 st.markdown(
     """
     <h1 style='text-align: center; color: #1E88E5;'>
-    비알코올성 지방간 위험 예측 AI
+    대사 이상 관련 지방간질환(MASLD) 예측 AI
     </h1>
     """,
     unsafe_allow_html=True

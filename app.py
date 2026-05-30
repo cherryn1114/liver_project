@@ -8,7 +8,7 @@ import tensorflow as tf
 # =========================
 
 st.set_page_config(
-    page_title="비알코올성 지방간 위험 예측 AI",
+    page_title="대사 이상 관련 지방간질환(MASLD) 위험 예측 AI",
     page_icon="🩺",
     layout="centered"
 )
@@ -330,10 +330,9 @@ if st.button("위험 수준 확인하기"):
         )
 
         st.write(
-        "지방간 위험 가능성이 높게 예측되었습니다. "
-    "보다 정확한 평가를 위해 의료 전문가와 상담해 보시는 것을 권장드립니다."
-)
-
+            "지방간 위험 가능성이 높게 예측되었습니다." \
+            "보다 정확한 평가를 위해 의료 전문가와 상담해 보시는 것을 권장드립니다."
+        )
     if diabetes_text == "있음":
 
         st.info(
